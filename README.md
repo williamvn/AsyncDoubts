@@ -1,5 +1,5 @@
 # AsycnDoubts
-This is an article that contains a series of questions and answers that that arrive when I was studying async programming. I hope that help you understand more about async programming.
+This is an article that contains a series of questions and answers that I found when I was studying async programming. I hope that help you understand more about async programming.
 
 ## Main Questions Solved
 ##### How this can be achieved through async programming?
