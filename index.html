@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <title>Doubts about async programming</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="title mt-5">
+            <h3 class="text-center">General Doubts About Async Programming</h3>
+        </div>
+        <div class="body-doc mt-5 p-5">
+            <p>
+                The first time that I heard about the term async programming was with a very intuitive example, a chef
+                doing a spaghetti dish.
+                It was an abstraction that described in simples terms the differents between ascyncronous programming,
+                parallel programming and syncronous programming.
+            </p>
+            <div class="example">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5>In syncronous programming</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item">1 - The chef start to chop all the vegetables.</li>
+                            <li class="list-group-item">2 - Then the chef put oil in the pan and wait for it to heat up.
+                            </li>
+                            <li class="list-group-item">3 - Then he put the vegetables in the pan and cook them with
+                                tomato sauce.</li>
+                            <li class="list-group-item">4 - Then he put the water to heat up.
+                            </li>
+                            <li class="list-group-item">5 - Once the water is ready, he add the spaghetti</li>
+                            <li class="list-group-item">6 - And finally when the spaghetti is ready, he mix it with
+                                the
+                                sauce.</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 d-flex justify-content-center">
+                        <img src="./img/syncChef.jpg" width="50%">
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-md-8">
+                        <h5>In parallel programming the chef hire two kitchen helpers.</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                1 </br>
+                                - The first one put the water to heat up.</br>
+                                - At the same time, the other put the oil in the pan and wait for it to heat up.</br>
+                                - And the chef at the same time, start to chop the vegetables.
+                            </li>
+                            <li class="list-group-item">
+                                2 </br>
+                                - The chef add to the pan the vegetables once the pan is
+                                ready. And cook the vegetables
+                                with the
+                                tomatoes sauce.</br>
+                                - At the same time one of the helpers, add the spaghetti to the boiling water.
+                            </li>
+                            <li class="list-group-item">
+                                3 - The chef mix the spaghetti with sauce, once the two tasks are done.
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-center">
+                        <img src="./img/parallelChefs.jpg" width="100%">
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-md-8">
+                        <h5>In asyncronous programming</h5>
+                        <ul class="list-group">
+
+                            <li class="list-group-item">
+                                1</br>
+                                - The chef put the water to heat up.</br>
+                                - While the water is heating up, the chef put the oil in the pan to heat up.</br>
+                                - And while this two task are being done, he start chop the vegetables.
+                            </li>
+                            <li class="list-group-item">
+                                2</br>
+                                - When the water is ready, he add the spaghetti to the water.</br>
+                                - When the oil is ready, he start to cook the vegetables with tomatoes sauce while the
+                                spaguetti is being cook.
+                            </li>
+                            <li class="list-group-item">
+                                3 - Then he mix the spaghetti and the sauce When the two task are done.
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-center">
+                        <img src="./img/asyncChef.jpg" width="100%">
+                    </div>
+                </div>
+            </div>
+
+            <h3>Lets look this examples from a computational look.</h3>
+            <p>
+
+                The first example, sync programming, is the regular way to compute a function in programming. The code
+                is
+                executed
+                statement by statement, and it will not start any other task (statement) until the current is done.
+            </p>
+            <p>
+                The second example, parallel programming, This one use threads(helpers), a thread of execution is opened
+                for
+                each task, once the result is computed the main thread of execution collect it and do something with it.
+                This
+                example is way much better but is also way much expensive because each thread opened, it is consuming
+                computing power, so if you start to open to many threads you will start to slow down the performance.
+                Notice
+                that are task that depends from others to start. So, in many cases it doesn't make sense open a thread
+                for
+                each task
+                since if there are dependencies the thread will need to wait until this dependencies being resolve to
+                start.
+            </p>
+            <p>
+                The third example, however, it feels that fits perfect for this abstraction. No need for extra workers,
+                and
+                the main thread (chef) is never waiting. This example seems to be very good and you can think that has
+                left
+                everything clear now. But in real, is just a scratch to the surface of what async programming is and it
+                have
+                left many questions to answer:
+            </p>
+            <p><strong>
+                    How this can be achieved through async programming? </br>
+                    How a single thread (the main thread) can split its processing over differents task without blocking
+                    it
+                    self waiting for a result?</br>
+                    How the main thread know what task was completed and in what order the task's results are collected?
+                    </br>
+                    And when you should or should not use async programming?
+                </strong></p>
+            <p>
+                To solve these interrogants and understand in deep how this is working lets first analyse the definition
+                of
+                asyncronous programming.
+            </p>
+            <div class="Subtitle d-flex flex-row align-items-center">
+                <h3>Definition of Asynchrony</h3>
+                <a class="ml-2" href="https://en.wikipedia.org/wiki/Asynchrony_(computer_programming)">[wikipedia]</a>
+            </div>
+            <p>
+                <a href="https://en.wikipedia.org/wiki/Asynchrony_(computer_programming)">Asynchrony</a>, in computer
+                programming, refers to the occurrence of events independent of the main program flow
+                and ways to deal with such events. These may be "outside" events such as the arrival of signals, or
+                actions
+                instigated by a program that take place concurrently with program execution, without the program
+                blocking to
+                wait for results.
+            </p>
+            <p>
+                There are one thing in this definition that you should pay attention. When the definition says that
+                async
+                programming <i>refers to the occurrence of events independent of the main program flow,</i> many people
+                can
+                missunderstand this, thinking, this means that the async functions runs in a separatly thread and when
+                they
+                has finished its work, some callback function is executed. But what really happends is that the async
+                function is acctually executed by the main thread of execution, but this function is intended to call
+                some
+                prossesing outside the main flow of execution and because of that it could run concurrently. Then when
+                the
+                result of the function is retrived an event is triggered and the call back function is executed.
+            </p>
+            <p>
+                So, this is how the main thread can make this processings without blocking it self. And the reason is the task
+                that
+                are being called are outside the execution stack of the program. And just calling it, this one can run
+                concurrently
+                and an event is added which will be triggered when the task is completed.
+            </p>
+            <h3 id="premises">When to use async programming?</h3>
+            <p>
+                Async programming is in general a very good solution when: </br>
+                1 - you don't want to block the main thread waiting for a task to be
+                done</br>
+                2 - and you can run this task outside the execution stack of your program. </br>
+                These two premises are necessary for it to make sense to use async programming.
+                For example the most common cases when is a benefit use async programming are:</p>
+            <p>
+                When you make I/O operations to databases, network or callings to a web server, (which the execution
+                stack
+                of your code never pass for the source code of the server), this processes occur independently and hence
+                concurrently with the execution of your code.
+            </p>
+
+            When you want to some processing have place in a certain amount of time. What you do is create an event that
+            will run a function when the time is over. Note, what is in real running asyncronous here is the chronometer
+            that when time has been acomlpished will trigger the event and run the function, not the function it self.
+            </p>
+
+            <h3 class="mb-3">Let's see now how this is achieved and the common structure of async programming</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="./img/pseudoCode.png" width="100%">
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        This example is a simulation of a call to an API. The async function do the call, and add an
+                        event
+                        to the event queue that will fire when the result is done, and then the function HandlingResult
+                        will
+                        be executed making use of the result obtained.
+                    </p>
+                </div>
+            </div>
+            <p>
+                This is the most common and easy aplication of async programming but let's see a better example that
+                allow
+                show how it works.</br>
+                It is used Javascript's sintax to be easy for you copy the code and test the examples.
+            </p>
+            <div>
+                <img src="./img/example1.png" width="70%" />
+            </div>
+            <div class="m-2">
+                <button class="btn btn-primary btn-sm">Copy</button>
+                <button class="btn btn-primary btn-sm"> See Output</button>
+            </div>
+            <p>
+                Now wich you think that will be the order of printing in the console?
+            </p>
+            <p>
+                Well, it will be:
+            </p>
+            <ul class="result notranslate">
+                <li>Async Function Complete</li>
+                <li>Task Done After 300 ms</li>
+            </ul>
+            <p>
+                And the reason is that the async function in the moment of the call is executed and it return the value,
+                which
+                will be handled in the <i class="notranslate"> then </i> function by the console.log function. The
+                timeout
+                function will run asyncronous
+                and when time is over will print the messsage.
+            </p>
+            <p>
+                But what happens now?
+            </p>
+            <div>
+                <img src="./img/example2.png" width="70%" />
+            </div>
+            <div class="m-2">
+                <button class="btn btn-primary btn-sm">Copy</button>
+                <button class="btn btn-primary btn-sm"> See Output</button>
+            </div>
+            <p>
+                Well, the result will be:
+            </p>
+            <ul class="result notranslate">
+                <li>Starting</li>
+                <li>Ending</li>
+                <li>Async Function Complete</li>
+                <li>Task Done After 300 ms</li>
+            </ul>
+            <p>
+                The reason of why the message <i class="notranslate">Async Function Complete </i> is shown after <i
+                    class="notranslate">Ending </i>
+                is because the event pushed by the async function will only be triggered when the main thread have done
+                all
+                its work. So, this is an important
+                feature, no matter what, an asyncronous event will never interrupt the main frame of execution. It will
+                only
+                take place after the main thread has done all its work.
+            </p>
+            <p>
+                But wait a minute, if the async function is executed in the main frame of execution then will any
+                operation
+                done
+                before the return (<i>lines 5-7</i>) performed before the next line after the call to async function
+                (<i>line 12</i>)?
+            </p>
+            <p>
+                The answer is yes. And here is the example.
+            </p>
+            <div>
+                <img src="./img/example3.png" width="70%" />
+            </div>
+            <div class="m-2">
+                <button class="btn btn-primary btn-sm">Copy</button>
+                <button class="btn btn-primary btn-sm"> See Output</button>
+            </div>
+            <p>
+                Result:
+            </p>
+            <ul class="result notranslate">
+                <li>Starting</li>
+                <li>Ending</li>
+                <li>Processing some op in the async function</li>
+                <li>Async Function Complete</li>
+                <li>Task Done After 300 ms</li>
+            </ul>
+            <p>
+                The problem is that the <i class="notranslate">return </i> on an async function what it does, is
+                subscribe
+                the returned object to an event to be
+                captured by the handling function (<i class="notranslate">console.log</i>) when the event is triggered .
+            </p>
+            <p>
+                Then as you can see this ResolveIn function, not make sense to be async because the stack execution will
+                be
+                the same even if the function is not async. And this is a good example to allow you recognize when a
+                function not need to
+                be async.
+            </p>
+            <p>
+                But let's make this function acctually depend of timeout to make sense to be async. To do that is needed
+                the
+                <a href="https://en.wikipedia.org/wiki/Async/await" class="notranslate"><i> await </i></a> keyword,
+                which It
+                is not within the objectives of this article to explain it, but basically what it does is put the
+                instruction pointer
+                to the next instruction out of the async function (<i>line 14</i>), and when the call to the external
+                task
+                is
+                done,
+                then it continue with the work in the async function.
+            </p>
+            <div>
+                <img src="./img/example4.png" width="60%" />
+            </div>
+            <div class="m-2">
+                <button class="btn btn-primary btn-sm">Copy</button>
+                <button class="btn btn-primary btn-sm"> See Output</button>
+            </div>
+            <p>
+                Result:
+            </p>
+            <ul class="result notranslate">
+                <li>Starting</li>
+                <li>Op before timeout</li>
+                <li>Ending</li>
+                <li>Op After timeout</li>
+                <li>Async Function complete After 300 ms</li>
+            </ul>
+            <p>
+                Now the ResolveIn function has more sense since it will only push its event in the queue once the
+                timeout
+                function is done.
+            </p>
+            <p>
+                Try now to add a <i>console.log </i> instruction onto the function's body of the first param of
+                <i>setTimeout </i> (<i>line 2</i>) to see how this time it is
+                shown before <i class="notranslate"> Async Function Complete After 300 ms</i>.
+            </p>
+            <p>
+                Now that is clear that the async function is executed in the moment that is being called and the task
+                executed concurrently in an independent task outside the flow of your program, the answer to the
+                question
+                posed about <i>Which handling function will be executed first if there are several calls to
+                    async functions?</i> is easy. The first one that finish its work, since it will be the first one to
+                push the event in the event queue. The following example prove it.
+            </p>
+            <div>
+                <img src="./img/example5.png" width="55%" />
+            </div>
+            <div class="m-2">
+                <button class="btn btn-primary btn-sm">Copy</button>
+                <button class="btn btn-primary btn-sm"> See Output</button>
+            </div>
+            <p>
+                Result:
+            </p>
+            <ul class="result notranslate">
+                <li>Starting</li>
+                <li>Some Op in First Call</li>
+                <li>Some Op in Second Call</li>
+                <li>Ending</li>
+                <li>Second Call has Finished</li>
+                <li> First Call has Finished</li>
+            </ul>
+            <h3> When you should not use async programming? </h3>
+            <p>
+                Now, you probably already know this, but I want alert you about a common error. First all you should't
+                use
+                async programming
+                in many cases, especially those that don't follow the premises shown before (I encourage you to research
+                about it). But I
+                want to alert you about a the missunderstanding of use async programming to run functions of your code that take long
+                time
+                to complete, with the objective of not block the main thread. First of all this example violates the
+                premise
+                number <a href="#premises">2</a>, because this function cannot run independently of the flow of your
+                program, and hence it will
+                anyway block your code while this function finishes to executing. The example below show the problem.
+            </p>
+            <div>
+                <img src="./img/example6.png" width="50%" />
+            </div>
+            <div class="m-2">
+                <button class="btn btn-primary btn-sm">Copy</button>
+                <button class="btn btn-primary btn-sm"> See Output</button>
+            </div>
+            <p>
+                Result:
+            </p>
+            <ul class="result notranslate">
+                <li>Starting</li>
+                <li>Ending</li>
+                <li>Long Time Function has finished</li>
+            </ul>
+            <p>
+                It's seems that it does exactly what is wanted, but it doesn't. If you uncomment the line 3 you will see
+                how
+                all
+                the processing is done before the line 10, and if you put a really long input to the
+                function (test with 999999999) you will see how your main thread of execution is being block by this
+                function. So, no, async programming is NOT intended to execute long time functions inside your code.
+            </p>
+
+            <h3> Conclusions </h3>
+            <p>
+
+                Well I hope that this series of questions and answer that comes to my mind while I was studying this,
+                help you
+                understand more about async programming.
+                I recommend you make all this tests in your prefered language and search for the original documentation
+                of how
+                handle Async Programming. And also, test with differents input until you convence your self how it
+                works.
+            </p>
+            </br>
+            </br>
+            </br>
+            </br>
+            </br>
+            </br>
+            </br>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
